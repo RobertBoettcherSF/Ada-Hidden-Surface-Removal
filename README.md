@@ -4,19 +4,24 @@
 Hidden-surface determination (also known as visible surface determination or occultation processing) is a fundamental problem in 3D computer graphics: determining which surfaces and parts of surfaces are visible from a given perspective point. This package provides an Ada 2023 (ISO/IEC 8652:2023) implementation of the primary algorithms classified in computer graphics literature: object-space methods (Back-Face Culling), list-priority sorting algorithms (Painter's Algorithm), image-space algorithms (Depth-Buffer / Z-Buffer and Scanline Z-Buffer), and point-sampling ray formulations (Ray Casting).
 
 ## Features
-* Object-Space Back-Face Culling: Evaluates surface normal vectors against a camera sightline, discarding non-visible geometric primitives before rendering.
-* Painter's Algorithm: Implements depth sorting from furthest to nearest geometric bounds, painting sequentially to achieve proper surface occlusion.
-* Z-Buffer (Depth Buffer): Performs per-pixel depth comparison during rasterization, allowing arbitrary rendering order while guaranteeing proper visual occlusions.
-* Scanline Z-Buffer: Processes surface intersections scanline-by-scanline across active geometric bounds.
-* Ray Casting Determination: Computes visible surfaces via analytical ray-polygon intersection tests (Möller–Trumbore intersection algorithm).
-* Strongly Typed Geometric Types: Dedicated types for Screen coordinates, 3D Coordinates, Depth Values, and Color channels.
-* Ada Contract Aspects: Pre, Post, and Global contracts applied to all public APIs for formal verification.
+* **Object-Space Back-Face Culling**: Evaluates surface normal vectors against a camera sightline, discarding non-visible geometric primitives before rendering.
+* **Painter's Algorithm**: Implements depth sorting from furthest to nearest geometric bounds, painting sequentially to achieve proper surface occlusion.
+* **Z-Buffer (Depth Buffer)**: Performs per-pixel depth comparison during rasterization, allowing arbitrary rendering order while guaranteeing proper visual occlusions.
+* **Scanline Z-Buffer**: Processes surface intersections scanline-by-scanline across active geometric bounds.
+* **Ray Casting Determination**: Computes visible surfaces via analytical ray-polygon intersection tests (Möller–Trumbore intersection algorithm).
+* **Strongly Typed Geometric Types**: Dedicated types for Screen coordinates, 3D Coordinates, Depth Values, and Color channels.
+* **Ada Contract Aspects**: `Pre`, `Post`, and `Global` contracts applied to all public APIs for formal verification.
 
 ## Usage
 Run the test suite using GNU Make:
+
+```bash
 make test
+```
 
 Expected output:
+
+```text
 Running tests...
 TEST 1 — Vector Operations and Triangle Normal
   PASS — 1.1 Cross product yields perpendicular Z axis
@@ -72,14 +77,15 @@ TEST 13 — Analytical Ray Intersection Accuracy
   PASS — 13.3 Ray outside boundary returns Hit = False
 
 ===  39 passed,  0 failed ===
+```
 
 ## Testing
-The test suite in tests.adb validates 13 distinct verification areas with 39 individual assertions:
-* Functional Correctness: Verifies vector cross and dot products, surface normals, depth ordering, raster overwrite, Z-buffer ordering independence, and Ray-Casting intersection.
-* Edge Cases: Covers empty triangle input arrays, boundary screen coordinate checks, and reverse viewing vectors.
-* Error Handling: Verifies that zero-length vectors raise Zero_Vector_Error and collinear degenerate triangles raise Invalid_Triangle_Error.
-* Invariants: Ensures depth buffers are bounded in range [0.0, 1.0] and that front-most geometry dominates the raster output regardless of submission order.
+The test suite in `tests.adb` validates 13 distinct verification areas with 39 individual assertions:
+* **Functional Correctness**: Verifies vector cross and dot products, surface normals, depth ordering, raster overwrite, Z-buffer ordering independence, and Ray-Casting intersection.
+* **Edge Cases**: Covers empty triangle input arrays, boundary screen coordinate checks, and reverse viewing vectors.
+* **Error Handling**: Verifies that zero-length vectors raise `Zero_Vector_Error` and collinear degenerate triangles raise `Invalid_Triangle_Error`.
+* **Invariants**: Ensures depth buffers are bounded in range [0.0, 1.0] and that front-most geometry dominates the raster output regardless of submission order.
 
 ## Building
-* Prerequisites: GNAT compiler supporting Ada 2022/2023 (gnatmake, gcc).
-* Standards: Built with -gnatwa -gnat2022 according to ISO/IEC 8652:2023.
+* **Prerequisites**: GNAT compiler supporting Ada 2022/2023 (`gnatmake`, `gcc`).
+* **Standards**: Built with `-gnatwa -gnat2022` according to ISO/IEC 8652:2023.
