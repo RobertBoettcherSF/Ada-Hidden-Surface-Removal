@@ -379,10 +379,11 @@ is
       for Y in FB'Range(2) loop
          for X in FB'Range(1) loop
             declare
-               Dir : constant Vector_3D := Normalize
-                 ((X => Coordinate (X) - Eye_Point.X,
-                   Y => Coordinate (Y) - Eye_Point.Y,
-                   Z => 0.0 - Coordinate (Float (Eye_Point.Z))));
+               Ray_Vec : constant Vector_3D :=
+                 (X => Coordinate (X) - Eye_Point.X,
+                  Y => Coordinate (Y) - Eye_Point.Y,
+                  Z => 1.0);
+               Dir : constant Vector_3D := Normalize (Ray_Vec);
                R : constant Ray :=
                  (Origin    => Eye_Point,
                   Direction => Dir);
