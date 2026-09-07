@@ -133,7 +133,7 @@ begin
    -- TEST 5: Back-Face Array Culling
    Put_Line ("TEST 5 — Bulk Back-Face Culling Pipeline");
    declare
-      Tri_List : constant Triangle_Array (1 .. 3) := (T_Front, T_Clockwise, T_Back);
+      Tri_List : constant Triangle_Array (1 .. 3) := [T_Front, T_Clockwise, T_Back];
       Culled   : Triangle_Array (1 .. 3);
       Count    : Natural;
    begin
@@ -157,10 +157,10 @@ begin
       Check ("6.3 Sort on empty array executes cleanly", True);
    end;
 
-   -- TEST 7: Painter's Algorithm Depth Sort
+   -- TEST 7: Painter's Depth Sorting
    Put_Line ("TEST 7 — Painter's Depth Sorting");
    declare
-      Tri_List : Triangle_Array (1 .. 2) := (T_Front, T_Back); -- Z: 0.2, 0.8
+      Tri_List : Triangle_Array (1 .. 2) := [T_Front, T_Back]; -- Z: 0.2, 0.8
    begin
       Sort_Polygons_By_Depth (Tri_List, Ascending => False);
       Check ("7.1 Furthest item sorted first for painter order", Tri_List (1).Id = 2);
@@ -184,7 +184,7 @@ begin
       Clear_Buffers (FB, ZB, Color_Black);
       -- Feed Far first, then Near - Painter's sorts and draws Far then Near
       declare
-         List : constant Triangle_Array (1 .. 2) := (T_Back, T_Front);
+         List : constant Triangle_Array (1 .. 2) := [T_Back, T_Front];
       begin
          Render_Painters (List, FB);
          Check ("9.1 Overlapping pixel at (1,1) shows foreground color (Red)", Equal_Color (FB (1, 1), Color_Red));
@@ -199,7 +199,7 @@ begin
       Clear_Buffers (FB, ZB, Color_Black);
       -- Submit in wrong order: foreground first, background second
       declare
-         List : constant Triangle_Array (1 .. 2) := (T_Front, T_Back);
+         List : constant Triangle_Array (1 .. 2) := [T_Front, T_Back];
       begin
          Render_Z_Buffer (List, FB, ZB);
          Check ("10.1 Front triangle dominates pixel despite order", Equal_Color (FB (2, 2), Color_Red));
@@ -213,8 +213,8 @@ begin
    begin
       Clear_Buffers (FB, ZB, Color_Black);
       declare
-         List : constant Triangle_Array (1 .. 2) := (T_Back, T_Front);
-         Eye  : constant Point_3D := (X => 2.0, Y => 2.0, Z => -5.0);
+         List : constant Triangle_Array (1 .. 2) := [T_Back, T_Front];
+         Eye  : constant Point_3D := (X => 2.0, Y => 2.0, Z => 0.0);
       begin
          Render_Ray_Casting (List, FB, Eye);
          Check ("11.1 Pixel directly in line of sight (2,2) resolves to Red", Equal_Color (FB (2, 2), Color_Red));
@@ -228,7 +228,7 @@ begin
    begin
       Clear_Buffers (FB, ZB, Color_Black);
       declare
-         List : constant Triangle_Array (1 .. 2) := (T_Back, T_Front);
+         List : constant Triangle_Array (1 .. 2) := [T_Back, T_Front];
       begin
          Render_Scanline_Z_Buffer (List, FB, ZB);
          Check ("12.1 Scanline correctly resolves front surface at (3,3)", Equal_Color (FB (3, 3), Color_Red));
